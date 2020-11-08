@@ -3,7 +3,7 @@ import requests
 def get_movies_from_tastedive(movie_title):
     url = "https://tastedive.com/api/similar"
     keys_d = {}
-    keys_d['q'] = movie_title
+    keys_d['q'] = 'movie:'+movie_title
     keys_d['type'] = 'movie'
     keys_d['limit'] = 5
     try:
@@ -26,7 +26,8 @@ def extract_movie_titles(result_dict):
         print('Error: ', err)
     return titles
 
-def get_related_movies(movie_titles_list):
-    #return [extract_movie_titles(get_movies_from_tastedive(movie_title)) for movie_title in movie_titles_list]
-
-print(get_related_movies('Pulp Fiction'))
+def get_related_movies(*movie_titles_list):
+    result = []
+    for movie_title in movie_titles_list:
+        result += extract_movie_titles(get_movies_from_tastedive(movie_title))
+    return result
