@@ -4,9 +4,7 @@ OMDB_KEY = '40d7ac1c'
 
 def get_movie_data(movie_title):
     url = "http://www.omdbapi.com/?"
-    keys_d = {}
-    keys_d['apikey'] = OMDB_KEY
-    keys_d['t'] = movie_title
+    keys_d = {'apikey':OMDB_KEY, 't':movie_title}
     try:
         response = requests.get(url, params=keys_d)
         response.raise_for_status()
@@ -25,6 +23,6 @@ def get_movie_rating(result_dict):
         for rating in result_dict['Ratings']:
             if rating['Source'] == 'Rotten Tomatoes':
                 return rating['Value'][:-1]
-    except KeyError as err:
+    except Exception as err:
         print('Error: ', err)
     return 0
