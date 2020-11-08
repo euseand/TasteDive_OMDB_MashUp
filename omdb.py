@@ -23,6 +23,6 @@ def get_movie_rating(result_dict):
         for rating in result_dict['Ratings']:
             if rating['Source'] == 'Rotten Tomatoes':
                 return rating['Value'][:-1]
-    except Exception as err:
-        print('Error: ', err)
+    except KeyError as err:
+        print ('Error: ', err, ' - omdb.py - get_movie_rating')
     return 0

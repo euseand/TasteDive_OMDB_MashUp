@@ -19,12 +19,19 @@ def get_movies_from_tastedive(movie_title):
 def extract_movie_titles(result_dict):
     try:
         titles = [movie['Name'] for movie in result_dict['Similar']['Results']]
-    except Exception as err:
-        print('Error: ', err)
-    return titles
+        return titles
+    except KeyError as err:
+        print('Error: ', err, ' - tastedive.py - extract_movie_titles')
 
 def get_related_movies(movie_titles_list):
     result = []
     for movie_title in movie_titles_list:
-        result += extract_movie_titles(get_movies_from_tastedive(movie_title))
-    return list(set(result))
+        try:
+            result += extract_movie_titles(get_movies_from_tastedive(movie_title))
+        except TypeError as err:
+            print('Error: ', err, ' - tastedive.py - get_related_movies')
+    result = list(set(result))
+    if result != []:
+        return result
+    else:
+        return 'No related movies or API limit exceeded'
